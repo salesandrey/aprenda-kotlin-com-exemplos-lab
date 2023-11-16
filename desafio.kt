@@ -1,21 +1,51 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
-
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+data class Usuario(val nome: String)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(val nome: String, val duracao: Int = 60, val nivel: Nivel)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val conteudos: MutableList<ConteudoEducacional>) {
 
-    val inscritos = mutableListOf<Usuario>()
+    private val inscritos = mutableListOf<Usuario>()
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricular(usuario: Usuario): String {
+        
+        if(inscritos.contains(usuario)) { return "Usuário já matriculado"}
+        
+        else {
+            inscritos.add(usuario)
+            return "Usuário matriculado!!"
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    
+    val conteudos: MutableList<ConteudoEducacional> = mutableListOf<ConteudoEducacional>()
+    
+    var course: ConteudoEducacional = ConteudoEducacional("Desenvolvimento Android - Layout",30,Nivel.BASICO)
+    
+    conteudos.add(course)
+    
+    course = ConteudoEducacional("Conceitos da Linguagem Kotlin",10,Nivel.BASICO)
+    
+    conteudos.add(course)
+    
+    course = ConteudoEducacional("Android Jetpack",nivel = Nivel.INTERMEDIARIO)
+    
+    conteudos.add(course)
+    
+    val formacao = Formacao("Desenvolvedor Android - Kotlin", conteudos)
+    
+    var result = formacao.matricular(Usuario("Andrey"))
+    
+    println(result)
+    
+    result = formacao.matricular(Usuario("Andrey"))
+    
+    println(result)
+    
+    result = formacao.matricular(Usuario("Carlos"))
+    
+    println(result) 
 }
